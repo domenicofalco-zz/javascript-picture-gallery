@@ -1,0 +1,41 @@
+.gallery-1 {
+  width: 800px;
+}
+
+// rules
+.gallery {
+  margin: 0 auto;
+  max-width: 90%;
+  overflow: hidden;
+  position: relative;
+
+  .gallery-wrap {
+    position: relative;
+    z-index: 1;
+
+    &:after {
+      content: '';
+      clear: both;
+      display: block;
+    }
+  }
+
+  img {
+    display: block;
+    float: left;
+  }
+
+  .button {
+    //position: absolute;
+    top: 50%;
+    z-index: 2;
+  }
+
+  .prev {
+    left: 5px;
+  }
+
+  .next {
+    right: 5px;
+  }
+}
