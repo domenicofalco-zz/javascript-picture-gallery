@@ -202,6 +202,7 @@ var Gallery = function () {
       this.counter = this.container.querySelector('.counter');
 
       this.setActivePicture();
+      this.setCounter();
     }
   }, {
     key: 'adjustWrapPosition',
@@ -241,6 +242,7 @@ var Gallery = function () {
 
       // active state
       this.setActivePicture();
+      this.setCounter();
     }
   }, {
     key: 'goToNextPicture',
@@ -255,6 +257,7 @@ var Gallery = function () {
       }
 
       this.setActivePicture();
+      this.setCounter();
     }
   }, {
     key: 'setActivePicture',
@@ -268,6 +271,11 @@ var Gallery = function () {
       this.pictures[this.index - 1].classList.add('active');
     }
   }, {
+    key: 'setCounter',
+    value: function setCounter() {
+      this.counter.innerHTML = this.index + ' / ' + this.picturesLength;
+    }
+  }, {
     key: 'addResizeEvent',
     value: function addResizeEvent() {
       var _this3 = this;
@@ -276,10 +284,7 @@ var Gallery = function () {
 
       // Resize-event
       window.addEventListener('resize', function () {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function () {
-          _this3.adjustWrapPosition();
-        }, 200);
+        _this3.adjustWrapPosition();
       });
     }
   }, {

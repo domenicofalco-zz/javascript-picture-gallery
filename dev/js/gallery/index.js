@@ -70,6 +70,7 @@ class Gallery {
     this.counter = this.container.querySelector('.counter');
 
     this.setActivePicture();
+    this.setCounter();
   }
 
   adjustWrapPosition() {
@@ -79,16 +80,16 @@ class Gallery {
       img.style.width = this.pictureWidth + 'px'
     });
 
-    this.wrap.style.left = this.pictureWidth * (this.index - 1) * -1 + 'px'
+    this.wrap.style.webkitTransform = 'translate('+this.pictureWidth * (this.index - 1) * -1 + 'px, 0, 0)';
   }
 
   setFirstSlide() {
-    this.wrap.style.left = 0 + 'px';
+    this.wrap.style.webkitTransform = 'translate(0, 0, 0)';
   }
 
   setLastSlide() {
     const lastPic = this.wrap.querySelector('.last');
-    this.wrap.style.left = lastPic.offsetLeft * -1 + 'px';
+    this.wrap.style.webkitTransform = 'translate('+ lastPic.offsetLeft * -1 + 'px, 0, 0)';
   }
 
   goToPrevPicture() {
@@ -103,11 +104,12 @@ class Gallery {
 
     // active state
     this.setActivePicture();
+    this.setCounter();
   }
 
   goToNextPicture() {
     this.index++;
-    this.wrap.style.left = this.currentOffsetLeft - this.pictureWidth + 'px';
+    this.wrap.style.webkitTransform = 'translate('+ this.currentOffsetLeft - this.pictureWidth + 'px, 0, 0)';
 
     //if isLastPic
     if(this.index > this.picturesLength) {
@@ -116,6 +118,7 @@ class Gallery {
     }
 
     this.setActivePicture();
+    this.setCounter();
   }
 
   setActivePicture() {
@@ -128,15 +131,16 @@ class Gallery {
     this.pictures[this.index - 1].classList.add('active');
   }
 
+  setCounter() {
+    this.counter.innerHTML = this.index + ' / ' + this.picturesLength;
+  }
+
   addResizeEvent() {
     let resizeTimer;
 
     // Resize-event
     window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        this.adjustWrapPosition();
-      }, 200);
+      this.adjustWrapPosition();
     });
   }
 
