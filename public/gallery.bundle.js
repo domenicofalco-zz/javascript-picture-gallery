@@ -150,13 +150,58 @@ var Gallery = function () {
 
     this.container = container;
     this.arrayOfPicture = pictures;
+    this.picturesLength = this.arrayOfPicture.length;
+    this.index = 1;
+    this.counter = null;
+    this.pictures = null;
+    this.wrap = null;
   }
 
   _createClass(Gallery, [{
-    key: "init",
+    key: 'init',
     value: function init() {
-      console.log(this.container);
-      console.log(this.arrayOfPicture);
+      this.createButtons();
+      this.createSlides();
+    }
+  }, {
+    key: 'createButtons',
+    value: function createButtons() {
+      this.container.innerHTML += '<a class="button prev" href="javascript:void(0);">prev</a>';
+      this.container.innerHTML += '<a class="button next" href="javascript:void(0);">next</a>';
+    }
+  }, {
+    key: 'createSlides',
+    value: function createSlides() {
+      var _this = this;
+
+      this.container.innerHTML += '<div class=\'gallery-wrap animated\' />';
+      this.container.innerHTML += '<div class=\'counter\' />';
+
+      this.preloadPictureSrc.forEach(function (src, i) {
+        var className = function () {
+          if (i === 0) return 'pic first';
+          if (i === _this.picturesLength - 1) return 'pic last';
+          return 'pic';
+        }();
+
+        _this.container.querySelector('.gallery-wrap').innerHTML += '<img class=\'' + className + '\' src=\'' + src + '\' />';
+      });
+
+      this.wrap = this.container.querySelector('.gallery-wrap');
+      this.pictures = this.wrap.querySelectorAll('img');
+      this.counter = this.container.querySelector('.counter');
+    }
+  }, {
+    key: 'preloadPictureSrc',
+    get: function get() {
+      return this.arrayOfPicture.map(function (pic, i) {
+        // caching the pictures in advance
+        var img = new Image();
+        img.src = pic;
+        //
+
+        return img.src;
+      });
     }
   }]);
 
@@ -2092,7 +2137,7 @@ exports = module.exports = __webpack_require__(8)(undefined);
 
 
 // module
-exports.push([module.i, ".gallery-1 {\n  width: 800px;\n}\n.animated {\n  /* easeOutExpo */\n  -webkit-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -moz-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -o-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -webkit-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  -moz-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  -o-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n}\n.gallery {\n  margin: 0 auto;\n  max-width: 90%;\n  overflow: hidden;\n  position: relative;\n}\n.gallery .gallery-wrap {\n  position: relative;\n  z-index: 1;\n}\n.gallery .gallery-wrap:after {\n  content: '';\n  clear: both;\n  display: block;\n}\n.gallery img {\n  display: block;\n  float: left;\n}\n.gallery .button {\n  top: 50%;\n  z-index: 2;\n}\n.gallery .prev {\n  left: 5px;\n}\n.gallery .next {\n  right: 5px;\n}\n", ""]);
+exports.push([module.i, ".gallery-1 {\n  width: 800px;\n}\n.gallery {\n  margin: 0 auto;\n  max-width: 90%;\n  overflow: hidden;\n  position: relative;\n}\n.gallery .gallery-wrap {\n  position: relative;\n  z-index: 1;\n}\n.gallery .gallery-wrap:after {\n  content: '';\n  clear: both;\n  display: block;\n}\n.gallery img {\n  display: block;\n  float: left;\n}\n.gallery .button {\n  top: 50%;\n  z-index: 2;\n}\n.gallery .prev {\n  left: 5px;\n}\n.gallery .next {\n  right: 5px;\n}\n", ""]);
 
 // exports
 
