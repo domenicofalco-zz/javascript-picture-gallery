@@ -42,6 +42,10 @@ class Gallery {
     })
   }
 
+  get currentOffsetLeft() {
+    return parseInt(this.wrap.style.left.replace('px', ''));
+  }
+
   createButtons() {
     this.container.innerHTML += `<a class="button prev" href="javascript:void(0);">prev</a>`;
     this.container.innerHTML += `<a class="button next" href="javascript:void(0);">next</a>`;
@@ -64,20 +68,70 @@ class Gallery {
     this.wrap = this.container.querySelector('.gallery-wrap');
     this.pictures = this.wrap.querySelectorAll('img');
     this.counter = this.container.querySelector('.counter');
+
+    this.setActivePicture();
   }
 
   adjustWrapPosition() {
     this.wrap.style.width = this.wrapPictureWith + 'px';
-    this.wrap.style.left = this.pictureWidth * (this.index - 1) * -1 + 'px'
 
     this.pictures.forEach((img) => {
       img.style.width = this.pictureWidth + 'px'
     });
+
+    this.wrap.style.left = this.pictureWidth * (this.index - 1) * -1 + 'px'
+  }
+
+  setFirstSlide() {
+    this.wrap.style.left = 0 + 'px';
+  }
+
+  setLastSlide() {
+    const lastPic = this.wrap.querySelector('.last');
+    this.wrap.style.left = lastPic.offsetLeft * -1 + 'px';
+  }
+
+  goToPrevPicture() {
+    this.index--;
+    this.wrap.style.left = this.currentOffsetLeft + this.pictureWidth + 'px';
+
+    //if isFirstPic
+    if(this.index === 0) {
+      this.setLastSlide();
+      this.index = this.picturesLength;
+    }
+
+    // active state
+    this.setActivePicture();
+  }
+
+  goToNextPicture() {
+    this.index++;
+    this.wrap.style.left = this.currentOffsetLeft - this.pictureWidth + 'px';
+
+    //if isLastPic
+    if(this.index > this.picturesLength) {
+      this.setFirstSlide();
+      this.index = 1;
+    }
+
+    this.setActivePicture();
+  }
+
+  setActivePicture() {
+    const activePic = this.wrap.getElementsByClassName('active')[0];
+
+    if(activePic) {
+      activePic.classList.remove('active');
+    }
+
+    this.pictures[this.index - 1].classList.add('active');
   }
 
   addResizeEvent() {
     let resizeTimer;
 
+    // Resize-event
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
@@ -89,8 +143,8 @@ class Gallery {
   addClickEvent() {
     const buttonPrev = this.container.querySelector('.prev');
     const buttonNext = this.container.querySelector('.next');
-    buttonPrev.onclick = null //got prev;
-    buttonNext.onclick = null //got next;
+    buttonPrev.onclick = this.goToPrevPicture.bind(this);
+    buttonNext.onclick = this.goToNextPicture.bind(this);
   }
 
   addTouchGesture() {
@@ -112,14 +166,13 @@ class Gallery {
 
     const handleGesure = () => {
       if (touchendX < touchstartX) {
-        //got next
+        this.goToNextPicture();
       }
       if (touchendX > touchstartX) {
-        //got prev
+        this.goToPrevPicture();
       }
     };
   }
-
 }
 
 export default Gallery;

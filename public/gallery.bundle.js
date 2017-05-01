@@ -200,6 +200,8 @@ var Gallery = function () {
       this.wrap = this.container.querySelector('.gallery-wrap');
       this.pictures = this.wrap.querySelectorAll('img');
       this.counter = this.container.querySelector('.counter');
+
+      this.setActivePicture();
     }
   }, {
     key: 'adjustWrapPosition',
@@ -207,11 +209,63 @@ var Gallery = function () {
       var _this2 = this;
 
       this.wrap.style.width = this.wrapPictureWith + 'px';
-      this.wrap.style.left = this.pictureWidth * (this.index - 1) * -1 + 'px';
 
       this.pictures.forEach(function (img) {
         img.style.width = _this2.pictureWidth + 'px';
       });
+
+      this.wrap.style.left = this.pictureWidth * (this.index - 1) * -1 + 'px';
+    }
+  }, {
+    key: 'setFirstSlide',
+    value: function setFirstSlide() {
+      this.wrap.style.left = 0 + 'px';
+    }
+  }, {
+    key: 'setLastSlide',
+    value: function setLastSlide() {
+      var lastPic = this.wrap.querySelector('.last');
+      this.wrap.style.left = lastPic.offsetLeft * -1 + 'px';
+    }
+  }, {
+    key: 'goToPrevPicture',
+    value: function goToPrevPicture() {
+      this.index--;
+      this.wrap.style.left = this.currentOffsetLeft + this.pictureWidth + 'px';
+
+      //if isFirstPic
+      if (this.index === 0) {
+        this.setLastSlide();
+        this.index = this.picturesLength;
+      }
+
+      // active state
+      this.setActivePicture();
+    }
+  }, {
+    key: 'goToNextPicture',
+    value: function goToNextPicture() {
+      this.index++;
+      this.wrap.style.left = this.currentOffsetLeft - this.pictureWidth + 'px';
+
+      //if isLastPic
+      if (this.index > this.picturesLength) {
+        this.setFirstSlide();
+        this.index = 1;
+      }
+
+      this.setActivePicture();
+    }
+  }, {
+    key: 'setActivePicture',
+    value: function setActivePicture() {
+      var activePic = this.wrap.getElementsByClassName('active')[0];
+
+      if (activePic) {
+        activePic.classList.remove('active');
+      }
+
+      this.pictures[this.index - 1].classList.add('active');
     }
   }, {
     key: 'addResizeEvent',
@@ -220,6 +274,7 @@ var Gallery = function () {
 
       var resizeTimer = void 0;
 
+      // Resize-event
       window.addEventListener('resize', function () {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function () {
@@ -232,12 +287,14 @@ var Gallery = function () {
     value: function addClickEvent() {
       var buttonPrev = this.container.querySelector('.prev');
       var buttonNext = this.container.querySelector('.next');
-      buttonPrev.onclick = null; //got prev;
-      buttonNext.onclick = null; //got next;
+      buttonPrev.onclick = this.goToPrevPicture.bind(this);
+      buttonNext.onclick = this.goToNextPicture.bind(this);
     }
   }, {
     key: 'addTouchGesture',
     value: function addTouchGesture() {
+      var _this4 = this;
+
       var touchstartX = 0;
       var touchstartY = 0;
       var touchendX = 0;
@@ -256,10 +313,10 @@ var Gallery = function () {
 
       var handleGesure = function handleGesure() {
         if (touchendX < touchstartX) {
-          //got next
+          _this4.goToNextPicture();
         }
         if (touchendX > touchstartX) {
-          //got prev
+          _this4.goToPrevPicture();
         }
       };
     }
@@ -284,6 +341,11 @@ var Gallery = function () {
 
         return img.src;
       });
+    }
+  }, {
+    key: 'currentOffsetLeft',
+    get: function get() {
+      return parseInt(this.wrap.style.left.replace('px', ''));
     }
   }]);
 
@@ -2219,7 +2281,7 @@ exports = module.exports = __webpack_require__(8)(undefined);
 
 
 // module
-exports.push([module.i, "* {\n  box-sizing: border-box;\n  font-family: Helvetica, Arial;\n}\n.gallery-1 {\n  width: 800px;\n}\n.scroll {\n  /* easeOutExpo */\n  -webkit-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -moz-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -o-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -webkit-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  -moz-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  -o-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n}\n.gallery {\n  margin: 0 auto;\n  max-width: 90%;\n  overflow: hidden;\n  position: relative;\n}\n.gallery .gallery-wrap {\n  position: relative;\n  z-index: 1;\n}\n.gallery .gallery-wrap:after {\n  content: '';\n  clear: both;\n  display: block;\n}\n.gallery img {\n  display: block;\n  float: left;\n}\n.gallery .counter {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  padding: 10px;\n  background-color: rgba(0, 0, 0, 0.5);\n  z-index: 20;\n  color: #fff;\n  font-size: 12px;\n}\n.gallery .button {\n  width: 35px;\n  height: 35px;\n  margin-top: -17.5px;\n  box-shadow: 0px 0px 7px 3px rgba(255, 255, 255, 0.3);\n  background-image: url(" + __webpack_require__(13) + ");\n  background-repeat: no-repeat;\n  background-color: #000;\n  background-size: 45px auto;\n  position: absolute;\n  top: 50%;\n  z-index: 2;\n  border-radius: 50%;\n  text-indent: -9999px;\n  display: block;\n}\n.gallery .prev {\n  left: 15px;\n  background-position: 5px 4px;\n}\n.gallery .next {\n  right: 15px;\n  background-position: -16px 4px;\n}\n", ""]);
+exports.push([module.i, "* {\n  box-sizing: border-box;\n  font-family: Helvetica, Arial;\n}\n.gallery-1 {\n  width: 800px;\n}\n.scroll {\n  /* easeOutExpo */\n  -webkit-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -moz-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -o-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -webkit-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  -moz-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  -o-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n}\n.gallery {\n  margin: 0 auto;\n  max-width: 90%;\n  overflow: hidden;\n  position: relative;\n}\n.gallery .gallery-wrap {\n  position: relative;\n  z-index: 1;\n}\n.gallery .gallery-wrap:after {\n  content: '';\n  clear: both;\n  display: block;\n}\n.gallery img {\n  display: block;\n  float: left;\n}\n.gallery .counter {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  padding: 10px;\n  background-color: #000;\n  z-index: 20;\n  color: #fff;\n  font-size: 12px;\n}\n.gallery .button {\n  width: 35px;\n  height: 35px;\n  margin-top: -17.5px;\n  box-shadow: 0px 0px 7px 3px rgba(255, 255, 255, 0.3);\n  background-image: url(" + __webpack_require__(13) + ");\n  background-repeat: no-repeat;\n  background-color: #000;\n  background-size: 45px auto;\n  position: absolute;\n  top: 50%;\n  z-index: 2;\n  border-radius: 50%;\n  text-indent: -9999px;\n  display: block;\n}\n.gallery .prev {\n  left: 15px;\n  background-position: 5px 4px;\n}\n.gallery .next {\n  right: 15px;\n  background-position: -16px 4px;\n}\n", ""]);
 
 // exports
 
