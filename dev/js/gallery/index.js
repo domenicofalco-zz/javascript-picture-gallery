@@ -31,7 +31,7 @@ class Gallery {
   }
 
   createSlides() {
-    this.container.innerHTML += `<div class='gallery-wrap animated' />`;
+    this.container.innerHTML += `<div class='gallery-wrap scroll' />`;
     this.container.innerHTML += `<div class='counter' />`;
 
     this.preloadPictureSrc.forEach((src, i) => {

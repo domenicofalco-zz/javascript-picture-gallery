@@ -174,7 +174,7 @@ var Gallery = function () {
     value: function createSlides() {
       var _this = this;
 
-      this.container.innerHTML += '<div class=\'gallery-wrap animated\' />';
+      this.container.innerHTML += '<div class=\'gallery-wrap scroll\' />';
       this.container.innerHTML += '<div class=\'counter\' />';
 
       this.preloadPictureSrc.forEach(function (src, i) {
@@ -2126,7 +2126,7 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
 
 /***/ }),
 /* 7 */
@@ -2137,7 +2137,7 @@ exports = module.exports = __webpack_require__(8)(undefined);
 
 
 // module
-exports.push([module.i, ".gallery-1 {\n  width: 800px;\n}\n.gallery {\n  margin: 0 auto;\n  max-width: 90%;\n  overflow: hidden;\n  position: relative;\n}\n.gallery .gallery-wrap {\n  position: relative;\n  z-index: 1;\n}\n.gallery .gallery-wrap:after {\n  content: '';\n  clear: both;\n  display: block;\n}\n.gallery img {\n  display: block;\n  float: left;\n}\n.gallery .button {\n  top: 50%;\n  z-index: 2;\n}\n.gallery .prev {\n  left: 5px;\n}\n.gallery .next {\n  right: 5px;\n}\n", ""]);
+exports.push([module.i, "* {\n  box-sizing: border-box;\n  font-family: Helvetica, Arial;\n}\n.gallery-1 {\n  width: 800px;\n}\n.scroll {\n  /* easeOutExpo */\n  -webkit-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -moz-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -o-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -webkit-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  -moz-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  -o-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n}\n.gallery {\n  margin: 0 auto;\n  max-width: 90%;\n  overflow: hidden;\n  position: relative;\n}\n.gallery .gallery-wrap {\n  position: relative;\n  z-index: 1;\n}\n.gallery .gallery-wrap:after {\n  content: '';\n  clear: both;\n  display: block;\n}\n.gallery img {\n  display: block;\n  float: left;\n}\n.gallery .counter {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  padding: 10px;\n  background-color: rgba(0, 0, 0, 0.5);\n  z-index: 20;\n  color: #fff;\n  font-size: 12px;\n}\n.gallery .button {\n  width: 35px;\n  height: 35px;\n  margin-top: -17.5px;\n  box-shadow: 0px 0px 7px 3px rgba(255, 255, 255, 0.3);\n  background-image: url(" + __webpack_require__(13) + ");\n  background-repeat: no-repeat;\n  background-color: #000;\n  background-size: 45px auto;\n  position: absolute;\n  top: 50%;\n  z-index: 2;\n  border-radius: 50%;\n  text-indent: -9999px;\n  display: block;\n}\n.gallery .prev {\n  left: 15px;\n  background-position: 5px 4px;\n}\n.gallery .next {\n  right: 15px;\n  background-position: -16px 4px;\n}\n", ""]);
 
 // exports
 
@@ -2718,6 +2718,12 @@ module.exports = function (css) {
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "f0dbb8c03409b7c8dfe2929c285dc32b.png";
+
+/***/ }),
+/* 14 */
 /***/ (function(module, exports) {
 
 var g;
