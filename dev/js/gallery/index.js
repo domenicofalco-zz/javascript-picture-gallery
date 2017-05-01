@@ -3,6 +3,7 @@ class Gallery {
     this.container = container;
     this.arrayOfPicture = pictures;
     this.picturesLength = this.arrayOfPicture.length;
+    this.isTouchDevice = ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch;
     this.index = 1;
     this.counter = null;
     this.pictures = null;
@@ -12,6 +13,22 @@ class Gallery {
   init() {
     this.createButtons();
     this.createSlides();
+    this.addEventListeners();
+    this.adjustWrapPosition();
+  }
+
+  addEventListeners() {
+    this.addResizeEvent();
+    this.addClickEvent();
+    this.isTouchDevice && this.addTouchGesture();
+  }
+
+  get pictureWidth() {
+    return this.container.clientWidth;
+  }
+
+  get wrapPictureWith() {
+    return this.pictureWidth * this.picturesLength;
   }
 
   get preloadPictureSrc() {
@@ -48,6 +65,61 @@ class Gallery {
     this.pictures = this.wrap.querySelectorAll('img');
     this.counter = this.container.querySelector('.counter');
   }
+
+  adjustWrapPosition() {
+    this.wrap.style.width = this.wrapPictureWith + 'px';
+    this.wrap.style.left = this.pictureWidth * (this.index - 1) * -1 + 'px'
+
+    this.pictures.forEach((img) => {
+      img.style.width = this.pictureWidth + 'px'
+    });
+  }
+
+  addResizeEvent() {
+    let resizeTimer;
+
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        this.adjustWrapPosition();
+      }, 200);
+    });
+  }
+
+  addClickEvent() {
+    const buttonPrev = this.container.querySelector('.prev');
+    const buttonNext = this.container.querySelector('.next');
+    buttonPrev.onclick = null //got prev;
+    buttonNext.onclick = null //got next;
+  }
+
+  addTouchGesture() {
+    let touchstartX = 0;
+    let touchstartY = 0;
+    let touchendX = 0;
+    let touchendY = 0;
+
+    this.container.addEventListener('touchstart', (event) => {
+      touchstartX = event.changedTouches[0].screenX;
+      touchstartY = event.changedTouches[0].screenY;
+    }, false);
+
+    this.container.addEventListener('touchend', (event) => {
+      touchendX = event.changedTouches[0].screenX;
+      touchendY = event.changedTouches[0].screenY;
+      handleGesure();
+    }, false);
+
+    const handleGesure = () => {
+      if (touchendX < touchstartX) {
+        //got next
+      }
+      if (touchendX > touchstartX) {
+        //got prev
+      }
+    };
+  }
+
 }
 
 export default Gallery;

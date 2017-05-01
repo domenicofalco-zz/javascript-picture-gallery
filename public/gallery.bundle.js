@@ -151,6 +151,7 @@ var Gallery = function () {
     this.container = container;
     this.arrayOfPicture = pictures;
     this.picturesLength = this.arrayOfPicture.length;
+    this.isTouchDevice = 'ontouchstart' in window || window.DocumentTouch && document instanceof DocumentTouch;
     this.index = 1;
     this.counter = null;
     this.pictures = null;
@@ -162,6 +163,15 @@ var Gallery = function () {
     value: function init() {
       this.createButtons();
       this.createSlides();
+      this.addEventListeners();
+      this.adjustWrapPosition();
+    }
+  }, {
+    key: 'addEventListeners',
+    value: function addEventListeners() {
+      this.addResizeEvent();
+      this.addClickEvent();
+      this.isTouchDevice && this.addTouchGesture();
     }
   }, {
     key: 'createButtons',
@@ -190,6 +200,78 @@ var Gallery = function () {
       this.wrap = this.container.querySelector('.gallery-wrap');
       this.pictures = this.wrap.querySelectorAll('img');
       this.counter = this.container.querySelector('.counter');
+    }
+  }, {
+    key: 'adjustWrapPosition',
+    value: function adjustWrapPosition() {
+      var _this2 = this;
+
+      this.wrap.style.width = this.wrapPictureWith + 'px';
+      this.wrap.style.left = this.pictureWidth * (this.index - 1) * -1 + 'px';
+
+      this.pictures.forEach(function (img) {
+        img.style.width = _this2.pictureWidth + 'px';
+      });
+    }
+  }, {
+    key: 'addResizeEvent',
+    value: function addResizeEvent() {
+      var _this3 = this;
+
+      var resizeTimer = void 0;
+
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+          _this3.adjustWrapPosition();
+        }, 200);
+      });
+    }
+  }, {
+    key: 'addClickEvent',
+    value: function addClickEvent() {
+      var buttonPrev = this.container.querySelector('.prev');
+      var buttonNext = this.container.querySelector('.next');
+      buttonPrev.onclick = null; //got prev;
+      buttonNext.onclick = null; //got next;
+    }
+  }, {
+    key: 'addTouchGesture',
+    value: function addTouchGesture() {
+      var touchstartX = 0;
+      var touchstartY = 0;
+      var touchendX = 0;
+      var touchendY = 0;
+
+      this.container.addEventListener('touchstart', function (event) {
+        touchstartX = event.changedTouches[0].screenX;
+        touchstartY = event.changedTouches[0].screenY;
+      }, false);
+
+      this.container.addEventListener('touchend', function (event) {
+        touchendX = event.changedTouches[0].screenX;
+        touchendY = event.changedTouches[0].screenY;
+        handleGesure();
+      }, false);
+
+      var handleGesure = function handleGesure() {
+        if (touchendX < touchstartX) {
+          //got next
+        }
+        if (touchendX > touchstartX) {
+          //got prev
+        }
+      };
+    }
+  }, {
+    key: 'pictureWidth',
+    get: function get() {
+      return this.container.clientWidth;
+    }
+  }, {
+    key: 'wrapPictureWith',
+    get: function get() {
+      return this.pictureWidth * this.picturesLength;
     }
   }, {
     key: 'preloadPictureSrc',
