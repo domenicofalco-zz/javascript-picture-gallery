@@ -77,19 +77,19 @@ class Gallery {
     this.wrap.style.width = this.wrapPictureWith + 'px';
 
     this.pictures.forEach((img) => {
-      img.style.width = this.pictureWidth + 'px'
+      img.style.width = this.pictureWidth + 'px';
     });
 
-    this.wrap.style.webkitTransform = 'translate('+this.pictureWidth * (this.index - 1) * -1 + 'px, 0, 0)';
+    this.wrap.style.left = this.pictureWidth * (this.index - 1) * -1 + 'px';
   }
 
   setFirstSlide() {
-    this.wrap.style.webkitTransform = 'translate(0, 0, 0)';
+    this.wrap.style.left = 0 + 'px';
   }
 
   setLastSlide() {
     const lastPic = this.wrap.querySelector('.last');
-    this.wrap.style.webkitTransform = 'translate('+ lastPic.offsetLeft * -1 + 'px, 0, 0)';
+    this.wrap.style.left = lastPic.offsetLeft * -1 + 'px';
   }
 
   goToPrevPicture() {
@@ -109,7 +109,8 @@ class Gallery {
 
   goToNextPicture() {
     this.index++;
-    this.wrap.style.webkitTransform = 'translate('+ this.currentOffsetLeft - this.pictureWidth + 'px, 0, 0)';
+
+    this.wrap.style.left = this.currentOffsetLeft - this.pictureWidth + 'px';
 
     //if isLastPic
     if(this.index > this.picturesLength) {
@@ -138,9 +139,11 @@ class Gallery {
   addResizeEvent() {
     let resizeTimer;
 
-    // Resize-event
     window.addEventListener('resize', () => {
-      this.adjustWrapPosition();
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        this.adjustWrapPosition();
+      }, 50);
     });
   }
 

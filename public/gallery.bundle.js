@@ -72,18 +72,24 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__config_galleryType1__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__gallery__ = __webpack_require__(4);
-// import gallery-type1 configuration
-
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__gallery__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__config_example_config_1__ = __webpack_require__(16);
 // import Gallery Class instance
+
+
+// import gallery-type1 configuration
 
 
 // Class instantiation
 document.addEventListener("DOMContentLoaded", function () {
-  var gallery = new __WEBPACK_IMPORTED_MODULE_1__gallery__["a" /* default */](__WEBPACK_IMPORTED_MODULE_0__config_galleryType1__["a" /* galleryContainer */], __WEBPACK_IMPORTED_MODULE_0__config_galleryType1__["b" /* pictures */]);
+  var gallery = new __WEBPACK_IMPORTED_MODULE_0__gallery__["a" /* default */](__WEBPACK_IMPORTED_MODULE_1__config_example_config_1__["a" /* container */], __WEBPACK_IMPORTED_MODULE_1__config_example_config_1__["b" /* pictures */]);
   gallery.init();
+
+  /*
+    It'd be obviously more then one slider with the same instance. Eg:
+     const gallery2 = new Gallery(container2, pictures2);
+    gallery2.init();
+  */
 });
 
 /***/ }),
@@ -123,19 +129,7 @@ __webpack_require__(0);
 __webpack_require__(1);
 
 /***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return galleryContainer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return pictures; });
-var galleryContainer = document.getElementById('gallery-container');
-
-var pictures = ['http://lorempixel.com/800/400/?1', 'http://lorempixel.com/800/400/?2', 'http://lorempixel.com/800/400/?3', 'http://lorempixel.com/800/400/?4', 'http://lorempixel.com/800/400/?5'];
-
-
-
-/***/ }),
+/* 3 */,
 /* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -248,6 +242,7 @@ var Gallery = function () {
     key: 'goToNextPicture',
     value: function goToNextPicture() {
       this.index++;
+
       this.wrap.style.left = this.currentOffsetLeft - this.pictureWidth + 'px';
 
       //if isLastPic
@@ -282,9 +277,11 @@ var Gallery = function () {
 
       var resizeTimer = void 0;
 
-      // Resize-event
       window.addEventListener('resize', function () {
-        _this3.adjustWrapPosition();
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+          _this3.adjustWrapPosition();
+        }, 50);
       });
     }
   }, {
@@ -2286,7 +2283,7 @@ exports = module.exports = __webpack_require__(8)(undefined);
 
 
 // module
-exports.push([module.i, "* {\n  box-sizing: border-box;\n  font-family: Helvetica, Arial;\n}\n.gallery-1 {\n  width: 800px;\n}\n.scroll {\n  /* easeOutExpo */\n  -webkit-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -moz-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -o-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -webkit-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  -moz-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  -o-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n}\n.gallery {\n  margin: 0 auto;\n  max-width: 90%;\n  overflow: hidden;\n  position: relative;\n}\n.gallery .gallery-wrap {\n  position: relative;\n  z-index: 1;\n}\n.gallery .gallery-wrap:after {\n  content: '';\n  clear: both;\n  display: block;\n}\n.gallery img {\n  display: block;\n  float: left;\n}\n.gallery .counter {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  padding: 10px;\n  background-color: #000;\n  z-index: 20;\n  color: #fff;\n  font-size: 12px;\n}\n.gallery .button {\n  width: 35px;\n  height: 35px;\n  margin-top: -17.5px;\n  box-shadow: 0px 0px 7px 3px rgba(255, 255, 255, 0.3);\n  background-image: url(" + __webpack_require__(13) + ");\n  background-repeat: no-repeat;\n  background-color: #000;\n  background-size: 45px auto;\n  position: absolute;\n  top: 50%;\n  z-index: 2;\n  border-radius: 50%;\n  text-indent: -9999px;\n  display: block;\n}\n.gallery .prev {\n  left: 15px;\n  background-position: 5px 4px;\n}\n.gallery .next {\n  right: 15px;\n  background-position: -16px 4px;\n}\n", ""]);
+exports.push([module.i, "/***/\n* {\n  box-sizing: border-box;\n  font-family: Helvetica, Arial;\n  margin: 0;\n  padding: 0;\n}\n.gallery-1 {\n  width: 800px;\n}\n.scroll {\n  /* easeOutExpo */\n  -webkit-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -moz-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -o-transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);\n  -webkit-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  -moz-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  -o-transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);\n}\n.gallery {\n  margin: 0 auto;\n  max-width: 90%;\n  overflow: hidden;\n  background: #000;\n  position: relative;\n}\n@media (max-width: 767px) {\n  .gallery {\n    max-width: 100%;\n  }\n}\n.gallery .gallery-wrap {\n  white-space: nowrap;\n  position: relative;\n  z-index: 1;\n}\n.gallery .gallery-wrap:after {\n  content: '';\n  clear: both;\n  display: block;\n}\n.gallery img {\n  display: inline-block;\n  white-space: normal;\n}\n.gallery .counter {\n  position: absolute;\n  bottom: 0;\n  left: 0;\n  width: 100%;\n  padding: 10px;\n  background-color: #000;\n  z-index: 20;\n  color: #fff;\n  font-size: 12px;\n}\n.gallery .button {\n  width: 35px;\n  height: 35px;\n  margin-top: -17.5px;\n  box-shadow: 0px 0px 7px 3px rgba(255, 255, 255, 0.3);\n  background-image: url(" + __webpack_require__(13) + ");\n  background-repeat: no-repeat;\n  background-color: #000;\n  background-size: 45px auto;\n  position: absolute;\n  top: 50%;\n  z-index: 2;\n  border-radius: 50%;\n  text-indent: -9999px;\n  display: block;\n}\n.gallery .prev {\n  left: 15px;\n  background-position: 5px 4px;\n}\n.gallery .next {\n  right: 15px;\n  background-position: -16px 4px;\n}\n", ""]);
 
 // exports
 
@@ -2896,6 +2893,20 @@ try {
 // easier to handle this case. if(!global) { ...}
 
 module.exports = g;
+
+
+/***/ }),
+/* 15 */,
+/* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return container; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return pictures; });
+var container = document.getElementById('gallery-container');
+
+var pictures = ['http://lorempixel.com/800/400/?1', 'http://lorempixel.com/800/400/?2', 'http://lorempixel.com/800/400/?3', 'http://lorempixel.com/800/400/?4', 'http://lorempixel.com/800/400/?5', 'http://lorempixel.com/800/400/?6', 'http://lorempixel.com/800/400/?7', 'http://lorempixel.com/800/400/?8', 'http://lorempixel.com/800/400/?9', 'http://lorempixel.com/800/400/?10'];
+
 
 
 /***/ })

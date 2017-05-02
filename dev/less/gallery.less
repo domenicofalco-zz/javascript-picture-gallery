@@ -1,14 +1,19 @@
-@gallery-1-size: 800;
+@gallery-1-size: 800px;
 @button-size: 35;
 @button-offset: 15;
+
+
+/***/
 
 * {
   box-sizing: border-box;
   font-family: Helvetica, Arial;
+  margin: 0;
+  padding: 0;
 }
 
 .gallery-1 {
-  width: @gallery-1-size * 1px;
+  width: @gallery-1-size;
 }
 
 .scroll {
@@ -29,9 +34,14 @@
   margin: 0 auto;
   max-width: 90%;
   overflow: hidden;
+  background: #000;
   position: relative;
+  @media (max-width: 767px) {
+    max-width: 100%;
+  }
 
   .gallery-wrap {
+    white-space: nowrap;
     position: relative;
     z-index: 1;
 
@@ -43,8 +53,8 @@
   }
 
   img {
-    display: block;
-    float: left;
+    display: inline-block;
+    white-space: normal;
   }
 
   .counter {
