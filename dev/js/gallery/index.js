@@ -58,7 +58,7 @@ class Gallery {
     this.preloadPictureSrc.forEach((src, i) => {
       const className = (() => {
         if(i === 0) return 'pic first';
-        if(i === this.picturesLength -1 ) return 'pic last';
+        if(i === this.picturesLength - 1 ) return 'pic last';
         return 'pic';
       })();
 
@@ -75,11 +75,7 @@ class Gallery {
 
   adjustWrapPosition() {
     this.wrap.style.width = this.wrapPictureWith + 'px';
-
-    this.pictures.forEach((img) => {
-      img.style.width = this.pictureWidth + 'px';
-    });
-
+    this.pictures.forEach(img => img.style.width = this.pictureWidth + 'px');
     this.wrap.style.left = this.pictureWidth * (this.index - 1) * -1 + 'px';
   }
 
@@ -102,14 +98,12 @@ class Gallery {
       this.index = this.picturesLength;
     }
 
-    // active state
     this.setActivePicture();
     this.setCounter();
   }
 
   goToNextPicture() {
     this.index++;
-
     this.wrap.style.left = this.currentOffsetLeft - this.pictureWidth + 'px';
 
     //if isLastPic
@@ -140,10 +134,7 @@ class Gallery {
     let resizeTimer;
 
     window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        this.adjustWrapPosition();
-      }, 50);
+      this.adjustWrapPosition();
     });
   }
 
