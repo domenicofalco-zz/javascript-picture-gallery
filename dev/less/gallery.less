@@ -1,10 +1,12 @@
-@gallery-1-size: 800px;
+@container-1-size: 800px;
+@container-2-size: 1200px;
+@mobile-brakpoint: 767px;
+@animation-time: .7s;
 @button-size: 35;
 @button-offset: 15;
 
 
 /***/
-
 * {
   box-sizing: border-box;
   font-family: Helvetica, Arial;
@@ -12,16 +14,30 @@
   padding: 0;
 }
 
-.gallery-1 {
-  width: @gallery-1-size;
+body {
+  background: #fafafa;
+}
+
+.container-1 {
+  max-width: @container-1-size;
+}
+
+.container-2 {
+  max-width: @container-2-size;
+}
+
+.title {
+  margin: 10px auto;
+  color: #666;
+  font-size: 18px;
 }
 
 .scroll {
   /* easeOutExpo */
-  -webkit-transition: all .7s cubic-bezier(0.190, 1.000, 0.220, 1.000);
-  -moz-transition: all .7s cubic-bezier(0.190, 1.000, 0.220, 1.000);
-  -o-transition: all .7s cubic-bezier(0.190, 1.000, 0.220, 1.000);
-  transition: all .7s cubic-bezier(0.190, 1.000, 0.220, 1.000);
+  -webkit-transition: all @animation-time cubic-bezier(0.190, 1.000, 0.220, 1.000);
+  -moz-transition: all @animation-time cubic-bezier(0.190, 1.000, 0.220, 1.000);
+  -o-transition: all @animation-time cubic-bezier(0.190, 1.000, 0.220, 1.000);
+  transition: all @animation-time cubic-bezier(0.190, 1.000, 0.220, 1.000);
 
   -webkit-transition-timing-function: cubic-bezier(0.190, 1.000, 0.220, 1.000);
   -moz-transition-timing-function: cubic-bezier(0.190, 1.000, 0.220, 1.000);
@@ -31,12 +47,12 @@
 
 // rules
 .gallery {
-  margin: 0 auto;
-  max-width: 90%;
+  margin: 0 auto 80px;
   overflow: hidden;
   background: #000;
   position: relative;
-  @media (max-width: 767px) {
+  width: 100%;
+  @media (max-width: @mobile-brakpoint) {
     max-width: 100%;
   }
 

@@ -2,17 +2,14 @@
 import Gallery from './gallery';
 
 // import gallery-type1 configuration
-import { container, pictures } from './config-example/config-1';
+import * as config from './config-example/config-1';
+import * as config2 from './config-example/config-2';
 
 // Class instantiation
 document.addEventListener('DOMContentLoaded', () => {
-  const gallery = new Gallery(container, pictures);
+  const gallery = new Gallery(config.container, config.pictures);
   gallery.init();
 
-  /*
-    It could be obviously more then one slider with the same instance. Eg:
-
-    const gallery2 = new Gallery(container2, pictures2);
-    gallery2.init();
-  */
+  const gallery2 = new Gallery(config2.container, config2.pictures);
+  gallery2.init();
 });
